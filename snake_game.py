@@ -65,7 +65,7 @@ class SnakeGame():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN: #user inputs
                 if event.key == pygame.K_LEFT and self.direction != Direction.RIGHT:
                     self.direction = Direction.LEFT 
                 elif event.key == pygame.K_RIGHT and self.direction != Direction.LEFT:
