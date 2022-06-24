@@ -24,7 +24,7 @@ while run:
 	screen.fill((202, 228, 241))
 
 	if start_button.draw(screen):
-		os.system('python snake_game_base.py')
+		os.system('python snake_game.py')
 	if exit_button.draw(screen):
 		pygame.quit()
 

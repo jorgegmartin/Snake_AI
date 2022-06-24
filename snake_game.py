@@ -4,19 +4,14 @@ from enum import Enum
 from collections import namedtuple
 
 pygame.init() # we need to initialize the game at the beggining
-WIDTH = 1280
-HEIGHT = 720
+WIDTH = 720
+HEIGHT = 480
+BLOCK_SIZE = 20
+SPEED = 20
 
 font = pygame.font.Font('resources/fonts/font.ttf', 25)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 food_img = pygame.image.load('resources/imgs/snake_food.png').convert_alpha()
-
-
-class Food(pygame.sprite.Sprite):
-    def __init__(self, pos):
-        super().__init__()
-        self.image = food_img
-        self.rect = self.image.get_rect(center=pos)
 
 class Direction(Enum): # since defining direction is prone to typing errors,
     UP = 1             # it is better to define a class from which we can acces directions
@@ -35,10 +30,6 @@ class Color:
     BLACK = (0, 0, 0)
     GREEN = (34, 177, 76)
     DARK_GREEN = (22, 114, 50)
-
-
-BLOCK_SIZE = 20
-SPEED = 20
 
 class SnakeGame():
 
