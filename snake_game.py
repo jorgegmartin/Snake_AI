@@ -4,11 +4,19 @@ from enum import Enum
 from collections import namedtuple
 
 pygame.init() # we need to initialize the game at the beggining
-
-font = pygame.font.Font('resources/fonts/font.ttf', 25)
-
 WIDTH = 1280
 HEIGHT = 720
+
+font = pygame.font.Font('resources/fonts/font.ttf', 25)
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+food_img = pygame.image.load('resources/imgs/snake_food.png').convert_alpha()
+
+
+class Food(pygame.sprite.Sprite):
+    def __init__(self, pos):
+        super().__init__()
+        self.image = food_img
+        self.rect = self.image.get_rect(center=pos)
 
 class Direction(Enum): # since defining direction is prone to typing errors,
     UP = 1             # it is better to define a class from which we can acces directions
@@ -25,6 +33,9 @@ class Color:
     BLUE1 = (0, 0, 255)
     BLUE2 = (0, 100, 255)
     BLACK = (0, 0, 0)
+    GREEN = (34, 177, 76)
+    DARK_GREEN = (22, 114, 50)
+
 
 BLOCK_SIZE = 20
 SPEED = 20
@@ -35,7 +46,7 @@ class SnakeGame():
         self.w = w
         self.h = h
         # init display
-        self.display = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.display = screen
         pygame.display.set_caption('Snake')
         self.clock = pygame.time.Clock()
 
@@ -113,13 +124,15 @@ class SnakeGame():
 
     def _update_ui(self):
         self.display.fill(Color.BLACK) # we need to fill the screen first and then draw the snake
+        self.image = food_img
 
         for point in self.snake:
-            pygame.draw.rect(self.display, Color.BLUE1, pygame.Rect(point.x, point.y, BLOCK_SIZE, BLOCK_SIZE))
-            pygame.draw.rect(self.display, Color.BLUE2, pygame.Rect(point.x+4, point.y+4, BLOCK_SIZE-8, BLOCK_SIZE-8))
+            pygame.draw.rect(self.display, Color.DARK_GREEN, pygame.Rect(point.x, point.y, BLOCK_SIZE, BLOCK_SIZE))
+            pygame.draw.rect(self.display, Color.GREEN, pygame.Rect(point.x+4, point.y+4, BLOCK_SIZE-8, BLOCK_SIZE-8))
         
-        pygame.draw.rect(self.display, Color.RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
-
+        pygame.Surface.blit(self.display, self.image, (self.food.x, self.food.y))
+        #pygame.draw.rect(self.display, Color.RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
+    
         text = font.render("Score  " + str(self.score), True, Color.WHITE)
         self.display.blit(text, [0, 0])
         pygame.display.flip() # command to call for the changes
