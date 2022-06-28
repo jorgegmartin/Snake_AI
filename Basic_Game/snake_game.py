@@ -7,7 +7,7 @@ pygame.init() # we need to initialize the game at the beggining
 WIDTH = 720
 HEIGHT = 480
 BLOCK_SIZE = 20
-SPEED = 20
+SPEED = 15
 
 font = pygame.font.Font('resources/fonts/font.ttf', 25)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -119,7 +119,7 @@ class SnakeGame():
 
         for point in self.snake:
             pygame.draw.rect(self.display, Color.DARK_GREEN, pygame.Rect(point.x, point.y, BLOCK_SIZE, BLOCK_SIZE))
-            pygame.draw.rect(self.display, Color.GREEN, pygame.Rect(point.x+4, point.y+4, BLOCK_SIZE-8, BLOCK_SIZE-8))
+            pygame.draw.rect(self.display, Color.GREEN, pygame.Rect(point.x+3, point.y+3, BLOCK_SIZE-6, BLOCK_SIZE-6))
         
         pygame.Surface.blit(self.display, self.image, (self.food.x, self.food.y))
         #pygame.draw.rect(self.display, Color.RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))

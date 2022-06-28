@@ -1,5 +1,5 @@
 import pygame
-import button
+import button # this is a file in the same folder
 import os
 
 #create display window
@@ -24,7 +24,7 @@ while run:
 	screen.fill((202, 228, 241))
 
 	if start_button.draw(screen):
-		os.system('python snake_game.py')
+		os.system('python Basic_Game\snake_game.py')
 	if exit_button.draw(screen):
 		pygame.quit()
 

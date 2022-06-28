@@ -13,7 +13,7 @@ LR = 0.001 # learning rate
 class Agent:
     def __innit__(self):
         self.n_games = 0
-        self.epsilon = 0 #randomness
+        self.epsilon = 0 # randomness
         self.gamma = 0 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) # popleft() si tenemos demasiados datos ira quitando los de la izquierda
         self.model = Linear_QNet(11, 256, 3) # this is the number of neuros in our model, input, hidden, output
@@ -135,7 +135,7 @@ def train():
                 agent.model.save()
             print('Game', agent.n_games, 'Score', 'Record: ', record)
 
-            plot_scores.append(scores)
+            plot_scores.append(score)
             total_score += score
             mean_score = total_score / agent.n_games
             plot_mean_scores.append(mean_score)
