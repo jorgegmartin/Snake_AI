@@ -47,6 +47,7 @@ class Direction(Enum): # since defining direction is prone to typing errors,
 class SnakeGameAI():
 
     def __init__(self, w=WIDTH, h=HEIGHT):
+        self.n_games = 0
         self.w = w
         self.h = h
         # init display
@@ -79,6 +80,7 @@ class SnakeGameAI():
     
     def play_step(self, action): # event handler definition
         self.frame_iteration += 1
+        eaten = 0
         # 1. collect input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -86,25 +88,35 @@ class SnakeGameAI():
                 quit()
      
         # 2 move the snake
+        if eaten == 0:
+            self.snake.pop()
+        else:
+            eaten = 0
         self._move(action) # update the head
         self.snake.insert(0, self.head) # we dont use append because we want it at the begining
 
         # 3 check if game over
         reward = 0
         game_over = False
-        if self.is_collision() or self.frame_iteration > 50*len(self.snake): # game ends if collision or too much time without eating
+        if self.is_collision() or self.frame_iteration > 100*len(self.snake): # game ends if collision or too much time without eating
             game_over = True
-            reward = -100
+            reward = -10
+            self.n_games += 1
             return reward, game_over, self.score
 
         # 4 place new food or move
         if self.head == self.food:
+            eaten = 1
             self.score += 1
-            reward = 10
+            reward = 11
             self._place_food()
         else:
-            self.snake.pop()
-            reward = 0.001 # reward survival    
+            if self.n_games > 150:
+                reward = 0.01 # reward survival  
+            elif self.n_games > 150:
+                reward = 0
+            else:
+                reward = -0.01  
 
         # 5 update the ui and clock
         self._update_ui()

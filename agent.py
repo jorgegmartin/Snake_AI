@@ -9,7 +9,7 @@ from helper import plot
 
 MAX_MEMORY = 100_000 # definir memoria para guardar en deque
 BATCH_SIZE = 1000
-LR = 0.001 # learning rate
+LR = 0.005 # learning rate
 
 
 class Agent:
@@ -19,7 +19,7 @@ class Agent:
         self.epsilon = 0 # randomness
         self.gamma = 0.9 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) # popleft() si tenemos demasiados datos ira quitando los de la izquierda
-        self.model = Linear_QNet(12, 256, 128, 3) # this is the number of neurons in our model, input, hidden, output
+        self.model = Linear_QNet(12, 64, 128, 256, 64, 3) # this is the number of neurons in our model, input, hidden, output
         self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma) #gamma is the discoutn rate, which needs to be less than 1
 
 
@@ -101,9 +101,9 @@ class Agent:
 
     def get_action(self, state):
         #random moves: tradeoff exploration / exploitation
-        self.epsilon = 120 - self.n_games # hardcoded so we can wiggle it
+        self.epsilon = 75 - self.n_games # hardcoded so we can wiggle it
         final_move = [0, 0, 0]
-        if random.randint(0, 200 < self.epsilon):
+        if random.randint(0, 50 < self.epsilon):
             move = random.randint(0, 2)
             final_move[move] = 1
         
@@ -119,7 +119,7 @@ class Agent:
 def train():
     plot_scores = []
     plot_mean_scores = []
-    last_10 = list(np.zeros((10,), dtype=int))
+    last_10 = list(np.zeros((20,), dtype=int))
     plot_10_mean = []
     total_score = 0
     mean_10_score = 0
@@ -158,7 +158,7 @@ def train():
             total_score += score
 
             last_10.append(score)
-            mean_10_score = np.sum(last_10[-10:-1]) / 10
+            mean_10_score = np.sum(last_10[-20:-1]) / 20
             plot_10_mean.append(mean_10_score)
                     
             mean_score = total_score / agent.n_games
