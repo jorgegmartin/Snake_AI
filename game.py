@@ -6,14 +6,14 @@ import numpy as np
 
 pygame.init() # we need to initialize the game at the beggining
 
-WIDTH = 1280
-HEIGHT = 720
+WIDTH = 720
+HEIGHT = 480
 BLOCK_SIZE = 20
-SPEED = 10
+SPEED = 100
 
-font = pygame.font.Font('resources/fonts/font.ttf', 25)
+font = pygame.font.Font('/home/dsc/Data_Science_Projects/Snake_AI/resources/fonts/font.TTF', 25)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-food_img = pygame.image.load('resources/imgs/snake_food.png').convert_alpha()
+food_img = pygame.image.load('/home/dsc/Data_Science_Projects/Snake_AI/resources/imgs/snake_food.png').convert_alpha()
 
 
 # reset
@@ -87,24 +87,24 @@ class SnakeGameAI():
      
         # 2 move the snake
         self._move(action) # update the head
-        self.snake.insert(0, self.head) # we dont use append because we eant it at the begining
+        self.snake.insert(0, self.head) # we dont use append because we want it at the begining
 
         # 3 check if game over
         reward = 0
         game_over = False
-        if self.is_collision() or self.frame_iteration > 100*len(self.snake): # game ends if collision or too much time without eating
+        if self.is_collision() or self.frame_iteration > 50*len(self.snake): # game ends if collision or too much time without eating
             game_over = True
-            reward -= -100
+            reward = -100
             return reward, game_over, self.score
 
         # 4 place new food or move
         if self.head == self.food:
             self.score += 1
-            reward += 10
+            reward = 10
             self._place_food()
         else:
             self.snake.pop()
-
+            reward = 0.001 # reward survival    
 
         # 5 update the ui and clock
         self._update_ui()
@@ -145,14 +145,14 @@ class SnakeGameAI():
         # [straigh, right turn, left turn]
 
         clock_wise =[Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
-        indx = clock_wise.index(self.direction)
+        idx = clock_wise.index(self.direction)
 
         if np.array_equal(action, [1, 0, 0]):
-            new_dir = clock_wise[indx] # no change in direction
+            new_dir = clock_wise[idx] # no change in direction
         elif np.array_equal(action, [0, 1, 0]):
-            new_dir = clock_wise[indx + 1] % 4
+            new_dir = clock_wise[(idx + 1) % 4] # next index
         else:
-            new_dir = clock_wise[indx - 1] % 4
+            new_dir = clock_wise[(idx - 1) % 4]
         
         self.direction = new_dir
 

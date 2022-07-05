@@ -9,9 +9,9 @@ HEIGHT = 480
 BLOCK_SIZE = 20
 SPEED = 15
 
-font = pygame.font.Font('resources/fonts/font.ttf', 25)
+font = pygame.font.Font('Snake_AI/resources/fonts/font.TTF', 25)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-food_img = pygame.image.load('resources/imgs/snake_food.png').convert_alpha()
+food_img = pygame.image.load('Snake_AI/resources/imgs/snake_food.png').convert_alpha()
 
 class Direction(Enum): # since defining direction is prone to typing errors,
     UP = 1             # it is better to define a class from which we can acces directions
