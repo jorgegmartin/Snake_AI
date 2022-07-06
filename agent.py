@@ -7,9 +7,9 @@ from game import SnakeGameAI, Direction, Point
 from model import Linear_QNet, QTrainer
 from helper import plot
 
-MAX_MEMORY = 100_000 # definir memoria para guardar en deque
-BATCH_SIZE = 1000
-LR = 0.005 # learning rate
+MAX_MEMORY = 1_000_000 # definir memoria para guardar en deque
+BATCH_SIZE = 10_000
+LR = 0.001 # learning rate
 
 
 class Agent:
@@ -17,9 +17,9 @@ class Agent:
     def __init__(self):
         self.n_games = 0
         self.epsilon = 0 # randomness
-        self.gamma = 0.9 # discount rate
+        self.gamma = 0.99 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) # popleft() si tenemos demasiados datos ira quitando los de la izquierda
-        self.model = Linear_QNet(12, 64, 128, 256, 64, 3) # this is the number of neurons in our model, input, hidden, output
+        self.model = Linear_QNet(12, 24, 48, 128, 64, 3) # this is the number of neurons in our model, input, hidden, output
         self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma) #gamma is the discoutn rate, which needs to be less than 1
 
 
@@ -101,9 +101,9 @@ class Agent:
 
     def get_action(self, state):
         #random moves: tradeoff exploration / exploitation
-        self.epsilon = 75 - self.n_games # hardcoded so we can wiggle it
+        self.epsilon = 200 - self.n_games # hardcoded so we can wiggle it
         final_move = [0, 0, 0]
-        if random.randint(0, 50 < self.epsilon):
+        if random.randint(0, 200 < self.epsilon):
             move = random.randint(0, 2)
             final_move[move] = 1
         

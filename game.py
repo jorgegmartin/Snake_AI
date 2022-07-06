@@ -113,10 +113,10 @@ class SnakeGameAI():
         else:
             if self.n_games > 150:
                 reward = 0.01 # reward survival  
-            elif self.n_games > 150:
-                reward = 0
+            elif self.n_games < 100:
+                reward = -0.01
             else:
-                reward = -0.01  
+                reward = 0  
 
         # 5 update the ui and clock
         self._update_ui()
