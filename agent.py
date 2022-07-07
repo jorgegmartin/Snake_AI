@@ -17,9 +17,9 @@ class Agent:
     def __init__(self):
         self.n_games = 0
         self.epsilon = 0 # randomness
-        self.gamma = 0.99 # discount rate
+        self.gamma = 0.9 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) # popleft() si tenemos demasiados datos ira quitando los de la izquierda
-        self.model = Linear_QNet(12, 24, 48, 128, 64, 3) # this is the number of neurons in our model, input, hidden, output
+        self.model = Linear_QNet(12, 256, 3) # this is the number of neurons in our model, input, hidden, output
         self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma) #gamma is the discoutn rate, which needs to be less than 1
 
 
