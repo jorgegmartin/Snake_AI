@@ -9,7 +9,8 @@ pygame.init() # we need to initialize the game at the beggining
 WIDTH = 720
 HEIGHT = 480
 BLOCK_SIZE = 20
-SPEED = 100
+SPEED = 120
+
 
 font = pygame.font.Font('/home/dsc/Data_Science_Projects/Snake_AI/resources/fonts/font.TTF', 25)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -55,6 +56,7 @@ class SnakeGameAI():
         pygame.display.set_caption('Snake')
         self.clock = pygame.time.Clock()
         self.reset()
+        self.eaten = 0
 
     def reset (self):
         # init game state
@@ -80,18 +82,19 @@ class SnakeGameAI():
     
     def play_step(self, action): # event handler definition
         self.frame_iteration += 1
-        eaten = 0
-        # 1. collect input
+    
+         # 1. collect input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
      
         # 2 move the snake
-        if eaten == 0:
+        if self.eaten == 0:
             self.snake.pop()
+            self.eaten = 0
         else:
-            eaten = 0
+            self.eaten = 0
         self._move(action) # update the head
         self.snake.insert(0, self.head) # we dont use append because we want it at the begining
 
@@ -106,7 +109,7 @@ class SnakeGameAI():
 
         # 4 place new food or move
         if self.head == self.food:
-            eaten = 1
+            self.eaten = 1
             self.score += 1
             reward = 11
             self._place_food()
